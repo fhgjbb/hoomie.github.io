@@ -1,0 +1,73 @@
+---
+title: "LAB"
+---
+```{r}
+library(tidygeocoder)
+library(sf)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(ggspatial)
+library(leaflet)
+library(geojsonio)
+# 讀取 GeoJSON
+阿公店_data <- st_read('C:/Users/folow/Desktop/大三下上課/20225創業競賽/創業R語言/ouput/阿公店')
+file.exists('C:/Users/folow/Desktop/大三下上課/20225創業競賽/創業R語言/input/zoning/zoning_fixed.gpkg')
+zoning <- st_read('C:/Users/folow/Desktop/大三下上課/20225創業競賽/創業R語言/input/zoning/zoning_fixed.gpkg')
+阿公店_with_landuse <- st_join(阿公店_data,zoning, join = st_within)
+print(阿公店_with_landuse)
+final_阿公店 <- 阿公店_with_landuse %>%
+  mutate(
+   是否位於都市計畫區 = ifelse(lengths(st_within(., zoning)) > 0, "Y", "N")
+  )
+print(final_阿公店)
+# 創建 leaflet 地圖
+leaflet() %>%
+  setView(121.5263, 25.04422, zoom = 11) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addMarkers(
+    data = final_阿公店,
+    popup = ~paste("ID:", fid, "<br>Address:", 營業地址,"<br>Name:",營業人名稱,"<br>行業名稱:", 行業名稱,"<br>是否位於都市計畫區:", 是否位於都市計畫區
+    ,"<br>使用分區:",使用分),
+    options = markerOptions(opacity = 0.8),
+    clusterOptions = markerClusterOptions(
+      showCoverageOnHover = FALSE,
+      zoomToBoundsOnClick = TRUE,
+      spiderfyOnMaxZoom = TRUE,
+      disableClusteringAtZoom = 18, # 你可以調整這個值來控制何時聚合標記
+      maxClusterRadius = 50 # 你可以調整這個值來控制聚合的半徑  
+    )) %>% 
+  addLegend(
+  position = "bottomright",
+  colors = c("#91d467", "#ebc83d", "#f68f42"), # 你可以自訂顏色
+  labels = c("< 10 個點", "< 100 個點", "> 100 個點"),
+  title = "商家數量"
+  # 你可能需要使用 CSS 來自訂圖例的樣式，使其看起來像聚合的標記
+) %>%   addPolygons(
+    data = zoning,
+    fillColor = "black",       # 設定填充顏色
+    color = "black",           # 設定邊框顏色
+    weight = 0.5,                # 設定邊框粗細
+    opacity = 0.5,             # 設定透明度
+    fillOpacity = 0.3
+    ,group = "土地使用分區"
+  )%>% # 如果你想顯示標籤，替換為你的屬性欄位
+  addLayersControl(
+    overlayGroups = c('土地使用分區'), # 字串向量包含所有群組名稱
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+## 萬華茶室文化老街再生計畫
+2024年電腦輔助設計之寒假作業。由於茶室文化老街的興衰，有感於此特別保留西園路之巴洛克式街廓，讓老街的傳統風華再現，參照實際街景製作而成
+
+{{< video https://youtu.be/KS2CdOuROXI?si=cqepDMJwsjgON4-x >}}
+
+
+
+
+
+
+
+
+
