@@ -12,5 +12,12 @@
     "title": "About",
     "section": "",
     "text": "About this site 專注在空間資訊的研究者 專注於支持專區的成立"
+  },
+  {
+    "objectID": "備忘錄(不會放到網站).html",
+    "href": "備忘錄(不會放到網站).html",
+    "title": "Hoomie studio",
+    "section": "",
+    "text": "git remote add origin\n\n - 添加遠端\n\n\n\ngit branch -M main\n\n重命名主分支\n\n\n\ngit add –all\n\n添加所有變更\n\n\n\ngit commit -m\n“&lt;訊息&gt;” - 提交變更\n\n\ngit push -u origin main\n\n推送到遠端\n\n\n\ngit count-objects -vH\n\ncount: 63 - 物件數 size: 531 KB - 儲存庫大小 (鬆散) in-pack: 0 - 無打包 packs: 0 - 無打包檔 size-pack: 0B - 打包大小 prune-packable: 0 - 無可打包 garbage: 0 - 無垃圾 size-garbage: 0B - 垃圾大小\n總結：儲存庫很小 (&lt; 1MB)，遠小於 GitHub Pages 限制 (1GB)。 注意：此為 .git 大小，非網站最終大小。"
   }
 ]
