@@ -4,17 +4,21 @@ project:
 website:
   title: "Hoomie studio"
   navbar:
+    backgroundcolor: '#808080'
     left:
       - href: index.qmd
         text: Home
       - about.qmd
       - research.qmd
+      - dashboard.qmd
 
+    
 format:
   html:
-    theme: Sketchy
+    theme: sketchy
     css: styles.css
     toc: true
+    fontcolor: '#808080'
+    monofont: courier new
 
 editor: visual
-
